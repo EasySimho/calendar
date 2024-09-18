@@ -2,20 +2,25 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, Navigate } from 'react-router-dom';
 
-function Register() {
+const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [redirect, setRedirect] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await axios.post('http://localhost:5000/register', { username, password });
       alert('Registrazione avvenuta con successo');
-    <Navigate to="/login" />
+      setRedirect(true);
     } catch (error) {
-      console.error('Errore durante la registrazione:', error);
+      console.error('Errore durante la registrazione:', error.response ? error.response.data : error.message);
     }
   };
+
+  if (redirect) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <form onSubmit={handleSubmit}>

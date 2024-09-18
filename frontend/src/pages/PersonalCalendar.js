@@ -7,7 +7,6 @@ function PersonalCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [title, setTitle] = useState('');
 
-  // Effettua la chiamata per recuperare gli eventi quando il componente viene montato
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -18,6 +17,7 @@ function PersonalCalendar() {
           }
         });
         console.log('Events fetched successfully:', response.data);
+        setEvents(response.data); // Update the state with fetched events
       } catch (error) {
         console.error('Error fetching events:', error);
       }
@@ -57,12 +57,11 @@ function PersonalCalendar() {
       });
   
       console.log('Event added successfully:', response.data);
-      setEvents([...events, response.data]);
+      setEvents([...events, response.data]); // Update the state with the new event
     } catch (error) {
       console.error('Error adding event:', error);
     }
   };
-
 
   return (
     <div>
@@ -85,7 +84,7 @@ function PersonalCalendar() {
         {events
           .filter(event => event.date === selectedDate.toISOString().split('T')[0])  // Filtra gli eventi in base alla data selezionata
           .map(event => (
-            <li key={event.id}>{event.title}</li>
+            <li key={event.id}>{event.title} - {event.user}</li> // Display event title and username
           ))}
       </ul>
     </div>
