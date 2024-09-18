@@ -1,0 +1,121 @@
+.react-calendar {
+    width: 100%;
+    max-width: 100%;
+    background-color: #f5f5f5; /* Sfondo calendario */
+    border-radius: 8px;
+    border: 1px solid #e0e0e0; /* Bordi delle celle */
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.125em;
+  }
+  
+  .react-calendar__tile {
+    text-align: center;
+    padding: 10px;
+    background-color: #ffffff; /* Sfondo delle celle */
+    border-radius: 4px;
+    border: 1px solid transparent; /* Bordi trasparenti per le celle */
+    color: #333333; /* Colore testo giorni */
+  }
+  
+  .react-calendar__tile:enabled:hover {
+    background-color: #e9ecef; /* Colore di sfondo al passaggio del mouse */
+    border-color: #e0e0e0; /* Bordo visibile al passaggio del mouse */
+    color: #333333; /* Colore testo al passaggio del mouse */
+  }
+  
+  .react-calendar__tile--now {
+    background-color: #007bff; /* Giorno corrente */
+    color: white;
+    border-radius: 6px;
+  }
+  
+  .react-calendar__tile--active {
+    background-color: #28a745; /* Giorno attivo (selezionato) */
+    color: white;
+    border-radius: 6px;
+  }
+  
+  .react-calendar__tile--now.react-calendar__tile--active {
+    background-color: #0056b3; /* Sfondo attivo su giorno corrente */
+  }
+  
+  .highlight {
+    background-color: #ffcc00 !important; /* Giorno impegnato (highlight) */
+    color: white;
+    border-radius: 6px;
+  }
+  
+  .highlight:hover {
+    background-color: #ffb700 !important; /* Giorno impegnato (hover) */
+  }
+
+  /* Stile per il label di navigazione (mese e anno) */
+.react-calendar__navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f8f9fa; /* Sfondo del label */
+    border-bottom: 1px solid #e0e0e0; /* Bordi inferiori */
+  }
+  
+  .react-calendar__navigation button {
+    color: #333333; /* Colore dei bottoni (freccia) */
+    font-size: 16px;
+    font-weight: bold;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .react-calendar__navigation button:enabled:hover,
+  .react-calendar__navigation button:enabled:focus {
+    color: #007bff; /* Colore quando il bottone è attivo (hover o focus) */
+  }
+  
+  .react-calendar__navigation span {
+    color: #007bff; /* Colore del mese e dell'anno */
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  /* Per altre dimensioni dello schermo, puoi aggiungere media queries */
+  @media (max-width: 576px) {
+    .react-calendar__navigation span {
+      font-size: 16px; /* Riduci la dimensione del mese e dell'anno su schermi piccoli */
+    }
+  }
+
+  /* Centrare il contenitore del testo e del bottone */
+.calendar-details {
+    text-align: center; /* Centra il testo */
+    margin-top: 20px; /* Aggiunge spazio sopra il contenitore */
+  }
+  
+  /* Aggiungere un piccolo spazio tra il titolo della data e l'elenco */
+  .calendar-details h3 {
+    margin-bottom: 10px; /* Spazio sotto il titolo della data */
+  }
+  
+  /* Centrare il bottone */
+  .calendar-details button {
+    display: inline-block; /* Necessario per il centraggio del bottone */
+    margin: 10px auto; /* Centra il bottone e aggiunge spazio intorno */
+  }
+  
+  /* Centrare l'elenco degli eventi */
+  .calendar-details ul {
+    padding: 0;
+    list-style: none;
+    text-align: center; /* Centra gli elementi nella lista */
+  }
+  
+  /* Centrare i singoli elementi della lista */
+  .calendar-details ul li {
+    display: inline-block; /* Necessario per centrare gli elementi */
+    background-color: #ffffff; /* Sfondo bianco per gli elementi della lista */
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }

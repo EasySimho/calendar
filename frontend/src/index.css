@@ -1,0 +1,133 @@
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f8f9fa; /* Secondario */
+  color: #212529; /* Testo primario */
+}
+
+h2 {
+  text-align: center;
+  color: #212529; /* Testo primario */
+}
+
+input {
+  padding: 8px;
+  margin: 10px 0;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #ffffff; /* Bianco */
+  color: #212529; /* Testo primario */
+}
+
+button {
+  padding: 10px 16px;
+  background-color: #007bff; /* Colore primario */
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3; /* Colore primario più scuro */
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  padding: 10px;
+  background-color: #ffffff; /* Bianco */
+  margin: 5px 0;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #212529; /* Testo primario */
+}
+
+h3 {
+  color: #6c757d; /* Testo secondario */
+}
+
+/* Stile per i campi di input */
+input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus {
+  border-color: #007bff; /* Colore primario */
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Stile per le intestazioni */
+h2 {
+  margin-top: 20px;
+  font-size: 24px;
+  color: #212529; /* Testo primario */
+}
+
+h3 {
+  margin-top: 20px;
+  font-size: 20px;
+  color: #6c757d; /* Testo secondario */
+}
+
+button, .nav-item {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button:active, .nav-item:active {
+  transform: scale(0.98); /* Leggero effetto di pressione */
+  background-color: #0056b3; /* Colore primario più scuro */
+}
+
+input[type="text"]:focus {
+  border-color: #007bff; /* Colore primario */
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Effetto glow su focus */
+}
+
+
+@media (max-width: 576px) {
+  h2 {
+    font-size: 20px; /* Riduci la dimensione del titolo su schermi piccoli */
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  .navbar {
+    padding: 8px 0; /* Riduci il padding della navbar su schermi piccoli */
+  }
+
+  .nav-item {
+    font-size: 14px;
+    padding: 6px;
+  }
+
+  button {
+    padding: 8px 12px; /* Riduci i pulsanti su schermi piccoli */
+    font-size: 14px;
+  }
+
+  input[type="text"] {
+    padding: 8px; /* Riduci il padding degli input su schermi piccoli */
+    font-size: 14px;
+  }
+
+  ul li {
+    padding: 8px;
+  }
+}
