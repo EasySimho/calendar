@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const axios = require('axios'); // Aggiungi questa linea
+const e = require('express');
 
 const app = express();
 const port = 5000;
@@ -38,12 +39,14 @@ db.serialize(() => {
   )`);
 });
 
+
+
 // Endpoint di registrazione
 app.post('/register', async (req, res) => {
   const { username, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  db.run(`INSERT INTO users (username, password) VALUES (?, ?)`, [username, hashedPassword], function(err) {
+  db.run(`INSERT INTO users (username, password) VALUES (?, ?)`, [username, hashedPassword], function (err) {
     if (err) {
       return res.status(500).json({ error: 'User already exists' });
     }
@@ -70,7 +73,7 @@ app.post('/login', (req, res) => {
 
     // Genera il token JWT
     const token = jwt.sign({ id: user.id }, secretKey, { expiresIn: '1h' });
-    
+
 
     res.status(200).json({ message: 'Login successful', token });
   });
@@ -82,7 +85,7 @@ const authenticate = (req, res, next) => {
     return res.status(401).send({ error: 'No token provided' });
   }
 
-  jwt.verify(token.split(' ')[1], secretKey, (err, decoded) => {
+  jwt.verify(token.split(' ')[1], secretKey, (err, decoded) => { // Corrected line
     if (err) {
       return res.status(401).send({ error: 'Failed to authenticate token' });
     }
@@ -92,22 +95,36 @@ const authenticate = (req, res, next) => {
 };
 // Endpoint protetti
 app.get('/events', authenticate, (req, res) => {
-  db.all(`SELECT * FROM events WHERE user = ?`, [req.userId], (err, rows) => {
+  db.all('SELECT * FROM events', [], (err, rows) => {
     if (err) {
-      return res.status(500).send({ error: err.message });
+      console.error('Error fetching events:', err);
+      return res.status(500).json({ error: 'Internal server error' });
     }
-    res.send(rows);
+    res.status(200).json(rows);
   });
 });
 
+
+// Endpoint di aggiunta evento
 app.post('/events', authenticate, (req, res) => {
   const { user, title, date } = req.body;
 
-  db.run(`INSERT INTO events (user, title, date) VALUES (?, ?, ?)`, [user, title, date], function(err) {
+  // Log the request data
+  console.log('Received event data:', { user, title, date });
+
+  if (!user || !title || !date) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+
+  db.run(`INSERT INTO events (user, title, date) VALUES (?, ?, ?)`, [user, title, date], function (err) {
     if (err) {
-      return res.status(500).json({ error: 'Failed to add event' });
+      console.error('Error inserting event:', err);
+      return res.status(500).json({ error: 'Internal server error' });
     }
-    res.status(201).json({ message: 'Event added successfully' });
+    else {
+      const newEventId = this.lastID;
+      res.status(201).json({ message: 'Event added successfully', id: newEventId });
+    }
   });
 });
 
@@ -118,7 +135,7 @@ app.post('/tasks', authenticate, (req, res) => {
     return res.status(400).send({ error: 'Missing required fields' });
   }
 
-  db.run(`INSERT INTO tasks (date, title, status) VALUES (?, ?, ?)`, [date, title, status], function(err) {
+  db.run(`INSERT INTO tasks (date, title, status) VALUES (?, ?, ?)`, [date, title, status], function (err) {
     if (err) {
       return res.status(500).json({ error: 'Failed to add task' });
     }
@@ -130,16 +147,3 @@ app.listen(port, () => {
   console.log(`Server in ascolto sulla porta ${port}`);
 });
 
-const fetchEvents = async () => {
-  try {
-    const token = localStorage.getItem('token'); // Assicurati che il token sia memorizzato nel localStorage
-    const response = await axios.get('http://localhost:5000/events', {
-      headers: {
-        'Authorization': token
-      }
-    });
-    console.log('Events fetched successfully:', response.data);
-  } catch (error) {
-    console.error('Error fetching events:', error);
-  }
-};

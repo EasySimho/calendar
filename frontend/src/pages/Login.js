@@ -19,15 +19,15 @@ function Login() {
   
       const { token, user } = response.data;
       
-      localStorage.setItem('username', user.username);
-
-      // Salva il token e aggiorna lo stato dell'utente
-      localStorage.setItem('token', token);
-      setUser({ username: user.username, token });
-  
-      navigate('/calendar');
-      
-      alert('Login avvenuto con successo');
+      if (token) {
+        localStorage.setItem('token', token);
+        localStorage.setItem('username', username); // Store the username in localStorage
+        setUser({ username, token });
+        navigate('/calendar');
+        alert('Login avvenuto con successo');
+      } else {
+        setErrorMessage('Login fallito. Verifica le credenziali.');
+      }
     } catch (error) {
       console.error('Errore durante il login:', error);
       setErrorMessage('Login fallito. Verifica le credenziali.');
@@ -43,18 +43,14 @@ function Login() {
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         placeholder="Username"
-        required
       />
       <input
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Password"
-        required
       />
       <button type="submit">Login</button>
-
-      {/* Link alla pagina di registrazione */}
       <p>Non hai un account? <a href="/register">Registrati qui</a></p>
     </form>
   );

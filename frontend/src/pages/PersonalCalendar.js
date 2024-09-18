@@ -31,19 +31,33 @@ function PersonalCalendar() {
     setSelectedDate(date);
   };
 
-  const handleAddEvent = async (event) => {
+  const handleAddEvent = async () => {
     try {
-      const token = localStorage.getItem('token'); // Assicurati che il token sia memorizzato nel localStorage
+      const token = localStorage.getItem('token');
+      const username = localStorage.getItem('username');
+  
+      if (!username) {
+        console.error('Username is not available');
+        return;
+      }
+  
+      if (!title || !selectedDate) {
+        console.error('Title or selected date is missing');
+        return;
+      }
+  
       const response = await axios.post('http://localhost:5000/events', {
-        user: event.user,
-        title: event.title,
-        date: event.date,
+        user: username,
+        title: title,
+        date: selectedDate.toISOString().split('T')[0],
       }, {
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}` // Corrected line
         }
       });
+  
       console.log('Event added successfully:', response.data);
+      setEvents([...events, response.data]);
     } catch (error) {
       console.error('Error adding event:', error);
     }
