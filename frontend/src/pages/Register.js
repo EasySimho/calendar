@@ -25,18 +25,20 @@ const Register = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Registrazione</h2>
+      <h2>Benvenuto</h2>
       <input
         type="text"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         placeholder="Username"
+        className='login-input'
       />
       <input
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Password"
+        className='login-input'
       />
       <button type="submit">Registrati</button>
 

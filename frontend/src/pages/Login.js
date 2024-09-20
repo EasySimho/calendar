@@ -38,19 +38,21 @@ function Login() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Login</h2>
+      <h2>Bello rivederti !</h2>
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} {/* Messaggio di errore */}
       <input
         type="text"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         placeholder="Username"
+        className='login-input'
       />
       <input
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Password"
+        className='login-input'
       />
       <button type="submit">Login</button>
       <p>Non hai un account? <a href="/register">Registrati qui</a></p>

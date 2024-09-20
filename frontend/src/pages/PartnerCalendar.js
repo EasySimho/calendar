@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import axios from 'axios';
+import "./CustomCalendar.css";
 
 function PersonalCalendar() {
   const [events, setEvents] = useState([]);
@@ -65,16 +66,17 @@ function PersonalCalendar() {
 
   return (
     <div>
-      <h2>Calendario Pippu</h2>
+      <h2 className='calendar-title'>Calendario Tatina</h2>
+      <br />
       <Calendar onClickDay={handleDateClick} />
       <div className='inserimento-attivita'>
-        <h3>{selectedDate.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'short' })
+        <h3 className='date-title'>{selectedDate.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'short' })
           .charAt(0).toUpperCase() +
           selectedDate.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'short' }).slice(1)}
         </h3>
         <input 
           type="text" 
-          placeholder="Inserisci attività Simone" 
+          placeholder="Inserisci attività Sofia" 
           value={title} 
           onChange={(e) => setTitle(e.target.value)} 
         />

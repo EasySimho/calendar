@@ -35,7 +35,9 @@ db.serialize(() => {
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     date TEXT NOT NULL,
     title TEXT NOT NULL,
-    status TEXT NOT NULL
+    status TEXT NOT NULL,
+    created_by INTEGER NOT NULL,
+    FOREIGN KEY (created_by) REFERENCES users(id)
   )`);
 });
 
@@ -130,20 +132,86 @@ app.post('/events', authenticate, (req, res) => {
 
 app.post('/tasks', authenticate, (req, res) => {
   const { date, title, status } = req.body;
+  const createdBy = req.userId;
 
   if (!date || !title || !status) {
     return res.status(400).send({ error: 'Missing required fields' });
   }
 
-  db.run(`INSERT INTO tasks (date, title, status) VALUES (?, ?, ?)`, [date, title, status], function (err) {
+  db.get('SELECT * FROM events WHERE date = ?', [date], (err, event) => {
     if (err) {
-      return res.status(500).json({ error: 'Failed to add task' });
+      return res.status(500).json({ error: 'Internal server error' });
     }
-    res.status(201).json({ message: 'Task added successfully' });
+    if (event) {
+      return res.status(400).json({ error: 'The selected day is not free' });
+    }
+
+    db.run(`INSERT INTO tasks (date, title, status, created_by) VALUES (?, ?, ?, ?)`, [date, title, status, createdBy], function (err) {
+      if (err) {
+        return res.status(500).json({ error: 'Failed to add task' });
+      }
+      res.status(201).json({ message: 'Task added successfully' });
+    });
+  });
+});
+
+app.put('/tasks/:id/accept', authenticate, (req, res) => {
+  const taskId = req.params.id;
+  const userId = req.userId;
+
+  // Log the request data
+  console.log('Accepting task:', { taskId, userId });
+
+  db.get('SELECT * FROM tasks WHERE id = ?', [taskId], (err, task) => {
+    if (err) {
+      console.error('Error fetching task:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+    if (!task) {
+      return res.status(404).json({ error: 'Task not found' });
+    }
+    if (task.created_by === userId) {
+      console.error('You cannot accept your own task');
+      return res.status(400).json({ error: 'You cannot accept your own task' });
+    }
+
+    db.run('UPDATE tasks SET status = ? WHERE id = ?', ['accepted', taskId], function (err) {
+      if (err) {
+        console.error('Error updating task:', err);
+        return res.status(500).json({ error: 'Failed to accept task' });
+      }
+      console.log(`Task ${taskId} accepted by user ${userId}`);
+      res.status(200).json({ message: 'Task accepted successfully' });
+    });
+  });
+});
+
+app.delete('/tasks/:id', authenticate, (req, res) => {
+  const taskId = req.params.id;
+
+  db.run('DELETE FROM tasks WHERE id = ?', [taskId], function (err) {
+    if (err) {
+      console.error('Error deleting task:', err);
+      return res.status(500).json({ error: 'Failed to delete task' });
+    }
+    if (this.changes === 0) {
+      return res.status(404).json({ error: 'Task not found' });
+    }
+    res.status(200).json({ message: 'Task deleted successfully' });
+  });
+});
+
+app.get('/tasks', authenticate, (req, res) => {
+  db.all('SELECT * FROM tasks', [], (err, rows) => {
+    if (err) {
+      console.error('Error fetching tasks:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+    res.status(200).json(rows);
   });
 });
 
 app.listen(port, () => {
-  console.log(`Server in ascolto sulla porta ${port}`);
+  console.log(`Server avviato con succeso alla porta ${port}`);
 });
 
