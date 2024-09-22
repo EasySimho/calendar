@@ -27,3 +27,4 @@ yarn-error.log*
 
 # local files
 vercel.json
+backend/database.db

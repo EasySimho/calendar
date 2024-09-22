@@ -70,6 +70,7 @@ function CalendarView() {
       });
       setTaskTitle('');
       fetchTasks(); // Ricarica le tasks dopo l'aggiunta
+      alert('Attività aggiunta con successo');
     } catch (error) {
       console.error('Errore durante l\'aggiunta dell\'attività:', error);
     }
@@ -81,6 +82,7 @@ function CalendarView() {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchTasks(); // Ricarica le tasks dopo l'accettazione
+      alert('Task accettato con successo');
     } catch (error) {
       console.error('Errore durante l\'accettazione della task:', error);
     }
@@ -92,6 +94,7 @@ function CalendarView() {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchTasks(); // Ricarica le tasks dopo la cancellazione
+      alert('Task cancellato con successo');
     } catch (error) {
       console.error('Errore durante la cancellazione della task:', error);
     }
