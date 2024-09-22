@@ -1,0 +1,11 @@
+{
+    "name": "root",
+    "version": "1.0.0",
+    "scripts": {
+      "start": "node backend/index.js",
+      "heroku-postbuild": "cd frontend && npm install && npm run build"
+    },
+    "dependencies": {
+      "express": "^4.21.0"
+    }
+  }
