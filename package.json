@@ -1,11 +1,11 @@
 {
-    "name": "root",
-    "version": "1.0.0",
-    "scripts": {
-      "start": "node backend/index.js",
-      "heroku-postbuild": "cd frontend && npm install && npm run build"
-    },
-    "dependencies": {
+  "name": "root",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node backend/index.js",
+    "heroku-postbuild": "cd frontend && npm install && npm run build"
+  },
+  "dependencies": {
     "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
@@ -26,9 +26,8 @@
     "react-router-dom": "^6.26.2",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
-    },
-    
-    "eslintConfig": {
+  },
+  "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
@@ -46,3 +45,4 @@
       "last 1 safari version"
     ]
   }
+}
