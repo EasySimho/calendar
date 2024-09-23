@@ -43,7 +43,7 @@ This is a calendar application that allows users to manage their events and task
     # or
     yarn install
 3. Start the development server:
-
+   ```bash
     npm start
     # or
     yarn start
