@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import axios from 'axios';
+import 'react-calendar/dist/Calendar.css';
 
 function PersonalCalendar() {
   const [events, setEvents] = useState([]);
@@ -10,22 +11,21 @@ function PersonalCalendar() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const token = localStorage.getItem('token'); // Assicurati che il token sia memorizzato nel localStorage
+        const token = localStorage.getItem('token');
         const response = await axios.get('http://localhost:5000/events', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         });
         console.log('Events fetched successfully:', response.data);
-        setEvents(response.data); // Update the state with fetched events
+        setEvents(response.data);
       } catch (error) {
         console.error('Error fetching events:', error);
       }
     };
       
-    fetchEvents(); // Richiama la funzione ogni volta che il componente viene montato
-  }, []); // Esegui useEffect solo una volta all'inizio
-  
+    fetchEvents();
+  }, []);
 
   const handleDateClick = (date) => {
     setSelectedDate(date);
@@ -52,42 +52,77 @@ function PersonalCalendar() {
         date: selectedDate.toISOString().split('T')[0],
       }, {
         headers: {
-          'Authorization': `Bearer ${token}` // Corrected line
+          'Authorization': `Bearer ${token}`
         }
       });
   
       console.log('Event added successfully:', response.data);
-      setEvents([...events, response.data]); // Update the state with the new event
+      setEvents([...events, response.data]);
+      setTitle('');
     } catch (error) {
       console.error('Error adding event:', error);
     }
   };
 
   return (
-    <div>
-      <h2 className='calendar-title'>Calendario Pippu</h2>
-      <br />
-      <Calendar onClickDay={handleDateClick} />
-      <div className='inserimento-attivita'>
-        <h3 className='date-title'>{selectedDate.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'short' })
-          .charAt(0).toUpperCase() +
-          selectedDate.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'short' }).slice(1)}
-        </h3>
-        <input 
-          type="text" 
-          placeholder="Inserisci attività Simone" 
-          value={title} 
-          onChange={(e) => setTitle(e.target.value)} 
-        />
-        <button onClick={handleAddEvent}>Aggiungi Attività</button>
+    <div className="bg-gray-100 min-h-screen overflow-scroll pb-20 p-4 md:p-8">
+      <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">Calendario Pippu</h2>
+      <div className="flex flex-col lg:flex-row gap-8">
+        <div className="w-full lg:w-2/3">
+          <div className="bg-white rounded-lg shadow-md p-4">
+            <Calendar 
+              onChange={handleDateClick} 
+              value={selectedDate}
+              className="w-full"
+              tileClassName={({ date, view }) => {
+                if (view === 'month' && events.find(event => event.date === date.toISOString().split('T')[0])) {
+                  return 'bg-blue-200 text-blue-800 rounded-full';
+                }
+              }}
+              formatShortWeekday={(locale, date) => ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'][date.getDay()]}
+              formatMonthYear={(locale, date) => {
+                const months = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
+                return `${months[date.getMonth()]} ${date.getFullYear()}`;
+              }}
+            />
+          </div>
+        </div>
+        <div className="w-full lg:w-1/3">
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <h3 className="text-xl font-semibold mb-4 text-gray-700">
+              {selectedDate.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long' })
+                .charAt(0).toUpperCase() +
+                selectedDate.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long' }).slice(1)}
+            </h3>
+            <div className="mb-4">
+              <input 
+                type="text" 
+                placeholder="Inserisci attività Simone" 
+                value={title} 
+                onChange={(e) => setTitle(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <button 
+                onClick={handleAddEvent}
+                className="mt-2 w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              >
+                Aggiungi Attività
+              </button>
+            </div>
+            <h4 className="text-lg font-semibold mb-2 text-gray-600">Attività del giorno</h4>
+            <ul className="space-y-2">
+              {events
+                .filter(event => event.date === selectedDate.toISOString().split('T')[0])
+                .map(event => (
+                  <li key={event.id} className="bg-gray-100 p-2 rounded flex justify-between items-center">
+                    <span>{event.title}</span>
+                    <span className="text-sm text-gray-500">{event.user}</span>
+                  </li>
+                ))}
+            </ul>
+          </div>
+        </div>
       </div>
-      <ul>
-        {events
-          .filter(event => event.date === selectedDate.toISOString().split('T')[0])  // Filtra gli eventi in base alla data selezionata
-          .map(event => (
-            <li key={event.id}>{event.title} - {event.user}</li> // Display event title and username
-          ))}
-      </ul>
     </div>
   );
 }

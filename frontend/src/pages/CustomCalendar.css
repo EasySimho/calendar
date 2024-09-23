@@ -1,218 +1,64 @@
 .react-calendar {
     width: 100%;
-    max-width: 100%;
-    background-color: #f5f5f5; /* Sfondo calendario */
-    border-radius: 8px;
-    border: 1px solid #e0e0e0; /* Bordi delle celle */
-    font-family: 'Roboto', sans-serif;
+    max-width: none;
+    background: white;
+    border: none;
+    font-family: Arial, Helvetica, sans-serif;
     line-height: 1.125em;
-  }
-  
-  .react-calendar__tile {
-    text-align: center;
-    padding: 10px;
-    background-color: #ffffff; /* Sfondo delle celle */
-    border-radius: 4px;
-    border: 1px solid transparent; /* Bordi trasparenti per le celle */
-    color: #333333; /* Colore testo giorni */
-  }
-  
-  .react-calendar__tile:enabled:hover {
-    background-color: #e9ecef; /* Colore di sfondo al passaggio del mouse */
-    border-color: #e0e0e0; /* Bordo visibile al passaggio del mouse */
-    color: #333333; /* Colore testo al passaggio del mouse */
-  }
-  
-  .react-calendar__tile--now {
-    background-color: #007bff; /* Giorno corrente */
-    color: white;
-    border-radius: 6px;
-  }
-  
-  .react-calendar__tile--active {
-    background-color: #28a745; /* Giorno attivo (selezionato) */
-    color: white;
-    border-radius: 6px;
-  }
-  
-  .react-calendar__tile--now.react-calendar__tile--active {
-    background-color: #0056b3; /* Sfondo attivo su giorno corrente */
-  }
-  
-  .highlight {
-    background-color: #ffcc00 !important; /* Giorno impegnato (highlight) */
-    color: white;
-    border-radius: 6px;
-  }
-  
-  .highlight:hover {
-    background-color: #ffb700 !important; /* Giorno impegnato (hover) */
-  }
-
-  /* Stile per il label di navigazione (mese e anno) */
-.react-calendar__navigation {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background-color: #f8f9fa; /* Sfondo del label */
-    border-bottom: 1px solid #e0e0e0; /* Bordi inferiori */
-    text-align: center;
+    
   }
   
   .react-calendar__navigation button {
-    color: #333333; /* Colore dei bottoni (freccia) */
-    font-size: 20px;
-    font-weight: bold;
+    min-width: 44px;
     background: none;
-    border: none;
-    cursor: pointer;
-  }
-
-  
-  .react-calendar__navigation button:enabled:hover,
-  .react-calendar__navigation button:enabled:focus {
-    color: #007bff; /* Colore quando il bottone è attivo (hover o focus) */
+    font-size: 16px;
+    margin-top: 8px;
   }
   
-  .react-calendar__navigation span {
-    color: #007bff; /* Colore del mese e dell'anno */
-    font-size: 18px;
-    font-weight: bold;
+  .react-calendar__month-view__weekdays {
     text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.75em;
   }
   
-  /* Per altre dimensioni dello schermo, puoi aggiungere media queries */
-  @media (max-width: 576px) {
-    .react-calendar__navigation span {
-      font-size: 16px; /* Riduci la dimensione del mese e dell'anno su schermi piccoli */
-    }
+  .react-calendar__month-view__days__day--weekend {
+    color: #d10000;
   }
-
-  /* Centrare il contenitore del testo e del bottone */
-/* Aggiungi queste regole al tuo file CustomCalendar.css */
-
-/* Imposta l'altezza del contenitore principale e abilita lo scroll */
-.calendar-container {
-  height: max-content; /* Imposta l'altezza del contenitore principale a 100% dell'altezza della finestra */
-  overflow-y: auto; /* Abilita lo scroll verticale */
-  padding-bottom: 100px;
-}
-
-/* Stili esistenti */
-@media (max-width: 576px) {
-  .react-calendar__navigation span {
-    font-size: 16px; /* Riduci la dimensione del mese e dell'anno su schermi piccoli */
-  }
-}
-
-/* Centrare il contenitore del testo e del bottone */
-.calendar-details {
-  text-align: center; /* Centra il testo */
-  margin-top: 20px; /* Aggiunge spazio sopra il contenitore */
-}
-
-/* Aggiungere un piccolo spazio tra il titolo della data e l'elenco */
-.calendar-details h3 {
-  margin-bottom: 10px; /* Spazio sotto il titolo della data */
-}
-
-/* Centrare il bottone */
-.calendar-details button:not(.task-buttons) {
-  display: inline-block; /* Necessario per il centraggio del bottone */
-  margin: 10px auto; /* Centra il bottone e aggiunge spazio intorno */
-}
-
-/* Centrare l'elenco degli eventi */
-.calendar-details ul {
-  padding: 0;
-  list-style: none;
-  text-align: center; /* Centra gli elementi nella lista */
-}
-
-/* Centrare i singoli elementi della lista */
-.calendar-details ul li {
-  display: inline-block; /* Necessario per centrare gli elementi */
-  background-color: #ffffff; /* Sfondo bianco per gli elementi della lista */
-  padding: 10px;
-  margin: 5px 0;
-}
-
-  .calendar-details:not(.task-item),
-  .inserimento-attivita{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10%;
-  }
-
-  @media (min-width: 576px) {
-    .calendar-details:not(.task-item),
-    .inserimento-attivita{
-      margin-top: 2%;
-    }
-    
-  }
-  .calendar-details input,
-  .inserimento-attivita input{
-    margin: 10px;
-    padding: 10px;
-    width: 300px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  .calendar-details button:not(.task-buttons, .pending-buttons),
-  .inserimento-attivita button{
-    margin: 10px;
-    padding: 10px;
-    width: 300px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: #007bff;
-    color: white;
-    font-weight: bold;
-  }
-
-  .task-item{
-    position: relative;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .task-buttons{
-    position: absolute;
-    right: 0;
-    top: 0;
-    color: #e60808;
-    background: none !important;
-    backdrop-filter: blur(2px);
-    width: 100%;
-    height: 100%;
-    font-size: 2rem;
-    margin: 0 !important;
-    padding: 0 !important;
-    opacity: 0;
-  }
-
-  .task-item:hover .task-buttons{
-    opacity: 1;
-  }
-
-  .pending-buttons{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: fit-content;
-    margin-left: 1rem !important;
-  }
-
-  .pending-buttons:nth-child(2){
-    color: #e60808;
+  
+  .react-calendar__tile {
+    max-width: 100%;
+    padding: 10px 6.6667px;
     background: none;
+    text-align: center;
+    line-height: 16px;
+    font-size: 14px;
   }
-
-  .pending-buttons:nth-child(2):hover{
-    color: #e60808;
-    background: #f8d7da;
+  
+  .react-calendar__tile:enabled:hover,
+  .react-calendar__tile:enabled:focus {
+    background: #006edc;
+    color: white;
+    
+    border-radius: 9999px;
+  }
+  
+  .react-calendar__tile--now {
+    background: #ffff76;
+    border-radius: 6px;
+    
+    border-radius: 9999px;
+  }
+  
+  .react-calendar__tile--active {
+    background: #0159b1;
+    border-radius: 6px;
+    color: white;
+    border-radius: 9999px;
+  }
+  
+  .highlight {
+    background-color: #fcaf52;
+    color: white;
+    border-radius: 9999px;
   }

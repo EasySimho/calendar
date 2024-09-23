@@ -1,32 +1,34 @@
 import React, { useState } from 'react';
-import './Login.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Per la navigazione programmatica
-import { useUser } from '../components/UserContext'; // Assumendo che tu abbia un UserContext per gestire lo stato dell'utente
+import { Link, useNavigate } from 'react-router-dom';
+import { useUser } from '../components/UserContext';
+import { Button } from "../components//ui/button"
+import { Input } from "../components/ui/input"
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
+import { Alert, AlertDescription } from "../components/ui/alert"
+import { LogIn } from "lucide-react"
 
-
-function Login() {
+export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState(''); // Per gestire eventuali errori
-  const { setUser } = useUser(); // Per aggiornare lo stato dell'utente nel contesto globale
-  const navigate = useNavigate(); // Per reindirizzare l'utente dopo il login
+  const [errorMessage, setErrorMessage] = useState('');
+  const { setUser } = useUser();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:5000/login', { username, password });
       
-      console.log('Response data:', response.data); // Log della risposta
+      console.log('Response data:', response.data);
   
       const { token, user } = response.data;
       
       if (token) {
         localStorage.setItem('token', token);
-        localStorage.setItem('username', username); // Store the username in localStorage
+        localStorage.setItem('username', username);
         setUser({ username, token });
         navigate('/calendar');
-        alert('Login avvenuto con successo');
       } else {
         setErrorMessage('Login fallito. Verifica le credenziali.');
       }
@@ -37,27 +39,48 @@ function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Bello rivederti !</h2>
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} {/* Messaggio di errore */}
-      <input
-        type="text"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        placeholder="Username"
-        className='login-input'
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-        className='login-input'
-      />
-      <button type="submit">Login</button>
-      <p>Non hai un account? <a href="/register">Registrati qui</a></p>
-    </form>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <Card className="w-full max-w-md">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-2xl font-bold text-center">Accedi al tuo account</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {errorMessage && (
+              <Alert variant="destructive">
+                <AlertDescription>{errorMessage}</AlertDescription>
+              </Alert>
+            )}
+            <div className="space-y-2">
+              <Input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Username"
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+                required
+              />
+            </div>
+            <Button type="submit" className="w-full hover:bg-slate-200">
+              <LogIn className="mr-2 h-4 w-4" /> Accedi
+            </Button>
+          </form>
+          <div className="mt-4 text-center text-sm">
+            Non hai un account?{" "}
+            <Link to="/register" className="text-primary hover:underline">
+              Registrati qui
+            </Link>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 }
-
-export default Login;

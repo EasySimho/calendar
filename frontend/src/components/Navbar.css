@@ -2,8 +2,7 @@
 .navbar {
     position: fixed;
     bottom: 0;
-    width: 100vw;
-    background-color: #a200ff; /* Colore primario */
+    width: 100vw;/* Colore primario */
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -20,6 +19,7 @@
     padding: 10px;
     text-align: center;
     flex-grow: 1;
+    color: #a200ff;
   }
   
   /* Stile per lo stato attivo dell'elemento di navigazione */

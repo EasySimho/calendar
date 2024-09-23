@@ -143,7 +143,9 @@ app.post('/tasks', authenticate, (req, res) => {
       return res.status(500).json({ error: 'Internal server error' });
     }
     if (event) {
-      res.status(400).json({ error: 'The selected day is not free' });
+      
+      return res.status(400).json({ error: 'The selected day is not free' });
+      
     }
 
     db.run(`INSERT INTO tasks (date, title, status, created_by) VALUES (?, ?, ?, ?)`, [date, title, status, createdBy], function (err) {
