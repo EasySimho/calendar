@@ -1,4 +1,3 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
 /frontend/node_modules
@@ -23,8 +22,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-.vercel
-
-# local files
-vercel.json
-backend/database.db
+# local env files
+/backend/database.db
