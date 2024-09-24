@@ -34,7 +34,7 @@ This is a calendar application that allows users to manage their events and task
 1. Clone the repository:
    
     ```bash
-    git clone https://github.com/yourusername/calendar-app.git
+    git clone https://github.com/easysimho/calendar.git
     cd calendar-app
 2. Install dependencies
 
